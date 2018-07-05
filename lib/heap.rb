@@ -4,7 +4,7 @@ class BinaryMinHeap
 
   def initialize(&prc)
     @store = []
-    @prc ||= proc {|x,y| x <=> y}
+    @prc = prc || proc {|x,y| x <=> y}
   end
 
   def count
@@ -14,7 +14,7 @@ class BinaryMinHeap
   def extract
     val = @store[0]
     @store[0] = @store.pop
-    BinaryMinHeap.heapify_down(@store, 0, count)
+    BinaryMinHeap.heapify_down(@store, 0, count, &prc)
     val
   end
 
@@ -24,7 +24,7 @@ class BinaryMinHeap
 
   def push(val)
     result = @store.push(val)
-    BinaryMinHeap.heapify_up(@store, (count - 1), @prc)
+    BinaryMinHeap.heapify_up(@store, (count - 1), &prc)
     result
   end
 
